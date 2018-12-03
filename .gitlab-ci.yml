@@ -15,10 +15,9 @@ deploy-supporting-branch-develop:
     SSH_REMOTE: ${DEV_SSH_REMOTE}
     STACK: log
     SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
-    IMAGE_NAME: ${CI_REGISTRY_IMAGE}
-    IMAGE_TAG: ${CI_COMMIT_SHA}
+    IMAGE_TAG: latest
   script:
-    - deploy.sh IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG}
+    - deploy.sh IMAGE_TAG=${IMAGE_TAG}
   environment:
     name: dev
   only:
@@ -33,10 +32,9 @@ deploy-stable-branch-develop:
     SSH_REMOTE: ${DEV_SSH_REMOTE}
     STACK: log
     SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
-    IMAGE_NAME: ${CI_REGISTRY_IMAGE}
-    IMAGE_TAG: ${CI_COMMIT_SHA}
+    IMAGE_TAG: latest
   script:
-    - deploy.sh IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG}
+    - deploy.sh IMAGE_TAG=${IMAGE_TAG}
   environment:
     name: dev
   only:
@@ -49,10 +47,9 @@ deploy-supporting-branch-production:
     SSH_REMOTE: ${PRO_SSH_REMOTE}
     STACK: log
     SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
-    IMAGE_NAME: ${CI_REGISTRY_IMAGE}
-    IMAGE_TAG: ${CI_COMMIT_SHA}
+    IMAGE_TAG: latest
   script:
-    - deploy.sh IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG}
+    - deploy.sh IMAGE_TAG=${IMAGE_TAG}
   environment:
     name: pro
   only:
@@ -67,10 +64,9 @@ deploy-stable-branch-production:
     SSH_REMOTE: ${PRO_SSH_REMOTE}
     STACK: log
     SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
-    IMAGE_NAME: ${CI_REGISTRY_IMAGE}
-    IMAGE_TAG: ${CI_COMMIT_SHA}
+    IMAGE_TAG: latest
   script:
-    - deploy.sh IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG}
+    - deploy.sh IMAGE_TAG=${IMAGE_TAG}
   environment:
     name: pro
   only:
