@@ -11,7 +11,7 @@ services:
         mode: host
     configs:
       - source: fluent-bit-conf
-        target: /etc/td-agent-bit/td-agent-bit.conf
+        target: /fluent-bit/etc/fluent-bit.conf
     logging:
       driver: json-file
     deploy:
