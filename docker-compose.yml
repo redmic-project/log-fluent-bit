@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+  fluent-bit:
+    image: fluent/fluent-bit:${IMAGE_TAG:-latest}
+    networks:
+      - log-net
+    ports:
+      - target: 24224
+        published: 24224
+        mode: host
+    configs:
+      - source: fluent-bit-conf
+        target: /etc/td-agent-bit/td-agent-bit.conf
+    logging:
+      driver: json-file
+    deploy:
+      mode: global
+      restart_policy:
+        delay: 5s
+        window: 30s
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 64M
+        reservations:
+          memory: 52M
+
+networks:
+  log-net:
+    name: log-net
+    driver: overlay
+    attachable: true
+
+configs:
+  fluent-bit-conf:
+    file: ./conf/fluent-bit.conf

@@ -1,0 +1,78 @@
+stages:
+  - deploy
+
+image: registry.gitlab.com/redmic-project/docker/docker-deploy:latest
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
+deploy-supporting-branch-develop:
+  stage: deploy
+  variables:
+    SSH_REMOTE: ${DEV_SSH_REMOTE}
+    STACK: log
+    SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
+    IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+    IMAGE_TAG: ${CI_COMMIT_SHA}
+  script:
+    - deploy.sh IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG}
+  environment:
+    name: dev
+  only:
+    - branches
+  except:
+    - master
+  when: manual
+
+deploy-stable-branch-develop:
+  stage: deploy
+  variables:
+    SSH_REMOTE: ${DEV_SSH_REMOTE}
+    STACK: log
+    SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
+    IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+    IMAGE_TAG: ${CI_COMMIT_SHA}
+  script:
+    - deploy.sh IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG}
+  environment:
+    name: dev
+  only:
+    - master
+  when: manual
+
+deploy-supporting-branch-production:
+  stage: deploy
+  variables:
+    SSH_REMOTE: ${PRO_SSH_REMOTE}
+    STACK: log
+    SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
+    IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+    IMAGE_TAG: ${CI_COMMIT_SHA}
+  script:
+    - deploy.sh IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG}
+  environment:
+    name: pro
+  only:
+    - branches
+  except:
+    - master
+  when: manual
+
+deploy-stable-branch-production:
+  stage: deploy
+  variables:
+    SSH_REMOTE: ${PRO_SSH_REMOTE}
+    STACK: log
+    SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
+    IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+    IMAGE_TAG: ${CI_COMMIT_SHA}
+  script:
+    - deploy.sh IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG}
+  environment:
+    name: pro
+  only:
+    - master
+  when: manual
