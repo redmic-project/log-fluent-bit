@@ -24,7 +24,7 @@ services:
           cpus: '0.1'
           memory: 64M
         reservations:
-          memory: 52M
+          memory: 16M
 
 networks:
   log-net:
