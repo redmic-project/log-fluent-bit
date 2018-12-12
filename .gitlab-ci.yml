@@ -5,6 +5,9 @@ image: registry.gitlab.com/redmic-project/docker/docker-deploy:latest
 
 variables:
   DOCKER_DRIVER: overlay2
+  STACK: log
+  SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
+  IMAGE_TAG: latest
 
 services:
   - docker:dind
@@ -13,9 +16,6 @@ deploy-supporting-branch-develop:
   stage: deploy
   variables:
     SSH_REMOTE: ${DEV_SSH_REMOTE}
-    STACK: log
-    SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
-    IMAGE_TAG: latest
   script:
     - deploy.sh IMAGE_TAG=${IMAGE_TAG}
   environment:
@@ -30,9 +30,6 @@ deploy-stable-branch-develop:
   stage: deploy
   variables:
     SSH_REMOTE: ${DEV_SSH_REMOTE}
-    STACK: log
-    SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
-    IMAGE_TAG: latest
   script:
     - deploy.sh IMAGE_TAG=${IMAGE_TAG}
   environment:
@@ -45,9 +42,6 @@ deploy-supporting-branch-production:
   stage: deploy
   variables:
     SSH_REMOTE: ${PRO_SSH_REMOTE}
-    STACK: log
-    SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
-    IMAGE_TAG: latest
   script:
     - deploy.sh IMAGE_TAG=${IMAGE_TAG}
   environment:
@@ -62,9 +56,6 @@ deploy-stable-branch-production:
   stage: deploy
   variables:
     SSH_REMOTE: ${PRO_SSH_REMOTE}
-    STACK: log
-    SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
-    IMAGE_TAG: latest
   script:
     - deploy.sh IMAGE_TAG=${IMAGE_TAG}
   environment:
