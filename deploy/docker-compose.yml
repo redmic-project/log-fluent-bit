@@ -6,8 +6,8 @@ services:
     networks:
       - log-net
     ports:
-      - target: 24224
-        published: 24224
+      - target: ${PORT}
+        published: ${PORT}
         mode: host
     configs:
       - source: fluent-bit-conf
@@ -28,10 +28,11 @@ services:
 
 networks:
   log-net:
-    name: log-net
+    name: ${LOG_NET_NAME:-log-net}
     driver: overlay
-    attachable: true
+    attachable: ${LOG_NET_ATTACHABLE:-true}
 
 configs:
   fluent-bit-conf:
+    name: ${FLUENT_BIT_CONF_NAME:-fluent-bit-conf}
     file: ./conf/fluent-bit.conf
