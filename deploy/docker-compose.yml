@@ -22,9 +22,9 @@ services:
       resources:
         limits:
           cpus: '0.01'
-          memory: 32M
+          memory: 64M
         reservations:
-          memory: 8M
+          memory: 16M
 
 networks:
   log-net:
