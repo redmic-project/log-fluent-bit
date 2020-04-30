@@ -1,65 +1,15 @@
+include:
+  - project: 'redmic-project/gitlab-ci-templates'
+    ref: master
+    file: '/deployment.yml'
+
 stages:
   - deploy
 
-image: ${DOCKER_DEPLOY_IMAGE_NAME}:${DOCKER_DEPLOY_IMAGE_TAG}
-
 variables:
-  DOCKER_DRIVER: overlay2
-  STACK: log
-  SERVICES_TO_CHECK: log_${CI_PROJECT_NAME}
-  IMAGE_TAG: latest
+  PROJECT_PARENT_NAME: log
 
-services:
-  - docker:dind
-
-deploy-supporting-branch-develop:
-  stage: deploy
+.deploy:
   variables:
-    SSH_REMOTE: ${DEV_SSH_REMOTE}
-  script:
-    - deploy.sh IMAGE_TAG=${IMAGE_TAG}
-  environment:
-    name: dev
-  only:
-    - branches
-  except:
-    - master
-  when: manual
-
-deploy-stable-branch-develop:
-  stage: deploy
-  variables:
-    SSH_REMOTE: ${DEV_SSH_REMOTE}
-  script:
-    - deploy.sh IMAGE_TAG=${IMAGE_TAG}
-  environment:
-    name: dev
-  only:
-    - master
-  when: manual
-
-deploy-supporting-branch-production:
-  stage: deploy
-  variables:
-    SSH_REMOTE: ${PRO_SSH_REMOTE}
-  script:
-    - deploy.sh IMAGE_TAG=${IMAGE_TAG}
-  environment:
-    name: pro
-  only:
-    - branches
-  except:
-    - master
-  when: manual
-
-deploy-stable-branch-production:
-  stage: deploy
-  variables:
-    SSH_REMOTE: ${PRO_SSH_REMOTE}
-  script:
-    - deploy.sh IMAGE_TAG=${IMAGE_TAG}
-  environment:
-    name: pro
-  only:
-    - master
-  when: manual
+    STACK: ${PROJECT_PARENT_NAME}
+    SERVICES_TO_CHECK: ${PROJECT_PARENT_NAME}_${CI_PROJECT_NAME}
