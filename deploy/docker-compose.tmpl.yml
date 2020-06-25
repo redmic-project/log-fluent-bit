@@ -4,7 +4,7 @@ services:
   fluent-bit:
     image: ${IMAGE_NAME:-fluent/fluent-bit}:${IMAGE_TAG:-latest}
     networks:
-      - log-net
+      log-net:
     ports:
       - target: ${PORT}
         published: ${PORT}
