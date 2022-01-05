@@ -3,6 +3,9 @@ version: '3.5'
 services:
   fluent-bit:
     image: ${IMAGE_NAME:-fluent/fluent-bit}:${IMAGE_TAG:-latest}
+    environment:
+      LOG_LEVEL:
+      INPUT_TAG_PREFIX:
     networks:
       log-net:
     ports:
@@ -10,7 +13,7 @@ services:
         published: ${PORT}
         mode: host
     configs:
-      - source: fluent-bit-conf
+      - source: fluent-bit
         target: /fluent-bit/etc/fluent-bit.conf
     logging:
       driver: json-file
@@ -19,7 +22,7 @@ services:
       restart_policy:
         delay: ${RESTART_DELAY:-1s}
       update_config:
-        delay: ${UPDATE_DELAY:-10s}
+        delay: ${UPDATE_DELAY:-1s}
       resources:
         limits:
           cpus: '${RESOURCES_LIMITS_CPUS:-0.1}'
@@ -35,6 +38,6 @@ networks:
     attachable: ${LOG_NET_ATTACHABLE:-true}
 
 configs:
-  fluent-bit-conf:
-    name: ${FLUENT_BIT_CONF_NAME:-fluent-bit-conf}
+  fluent-bit:
+    name: ${FLUENT_BIT_CONFIG_NAME:-fluent-bit-conf}
     file: ./conf/fluent-bit.conf
