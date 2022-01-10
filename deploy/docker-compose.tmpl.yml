@@ -6,6 +6,7 @@ services:
     environment:
       LOG_LEVEL:
       INPUT_TAG_PREFIX:
+      LOKI_HOST:
     networks:
       log-net:
     ports:
