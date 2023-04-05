@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.9'
 
 services:
   fluent-bit:
@@ -18,7 +18,7 @@ services:
       - source: fluent-bit
         target: /fluent-bit/etc/fluent-bit.conf
     logging:
-      driver: json-file
+      driver: local
     deploy:
       mode: global
       restart_policy:
